@@ -36,6 +36,8 @@ public class ColorTable {
   private int collisionStrategy;
   
   private double rehashThreshold;
+  
+  private int sizeCount;
 
   /**
    * Returns the number of collisions that occurred during the most recent get or
@@ -68,6 +70,7 @@ public class ColorTable {
 	  this.initialCapacity = initialCapacity;
 	  this.collisionStrategy = collisionStrategy;
 	  this.rehashThreshold = rehashThreshold;
+	  this.sizeCount = 0;
 	  for (int i=0; i<initialCapacity; i++){
 		  hashArray[i][0] = -1;
 		  hashArray[i][1] = -1;
@@ -138,12 +141,34 @@ public class ColorTable {
 	  if (count>0){
 		  int packedColor = Util.pack(color, bitsPerChannel);
 		  int finIndex = lookup(packedColor);
+		  if (hashArray[finIndex][0] == -1){
+			  sizeCount++;
+		  }
 		  hashArray[finIndex][0] = packedColor;
 		  hashArray[finIndex][1] = count;
+		  if (getLoadFactor()>rehashThreshold){
+			  rehash();
+		  }
 	  }
-	  if (getLoadFactor()>rehashThreshold){
-		  rehash();
+	  
+	  
+	  
+  }
+  
+  public void rehashPut(Color color, long count) {
+	  if (count>0){
+		  int packedColor = Util.pack(color, bitsPerChannel);
+		  int finIndex = lookup(packedColor);
+		  if (hashArray[finIndex][0] == -1){
+			  //sizeCount++;
+		  }
+		  hashArray[finIndex][0] = packedColor;
+		  hashArray[finIndex][1] = count;
+		  if (getLoadFactor()>rehashThreshold){
+			  rehash();
+		  }
 	  }
+	  
 	  
 	  
   }
@@ -158,7 +183,8 @@ public class ColorTable {
   public void increment(Color color) {
 	  int packedColor = Util.pack(color, bitsPerChannel);
 	  int finIndex = lookup(packedColor);
-	  if (hashArray[finIndex][0] == -1){		  
+	  if (hashArray[finIndex][0] == -1){
+		  sizeCount++;
 		  hashArray[finIndex][0] = packedColor;
 		  hashArray[finIndex][1] = 1;
 	  }else{
@@ -198,13 +224,7 @@ public class ColorTable {
    * Returns the number of key/value associations in this table.
    */
   public int getSize() {
-	  int count = 0;
-	  for (int i=0; i<hashArray.length; i++){
-		  if (hashArray[i][0] != -1){
-			  count++;  
-		  }
-	  }
-    return count;
+    return sizeCount;
   }
 
   /**
@@ -250,17 +270,19 @@ public class ColorTable {
 		  throw new RuntimeException();
 	  }
 	  int newCapacity = findNewSize(Capacity);
-	  //System.out.println("NewCap:"+newCapacity);
 	  long[][] temp = hashArray;
 	  this.hashArray = new long[newCapacity][2];
+	  
 	  for (int i=0; i<hashArray.length; i++){
 		  hashArray[i][0] = -1;
 		  hashArray[i][1] = -1;
 	  }
+	  //toString();
       for (int i=0; i<temp.length; i++){
     	  if (temp[i][0] != -1){
     		  int key = (int) temp[i][0];
-    		  this.put(Util.unpack(key, bitsPerChannel), temp[i][1]);  
+    		  this.rehashPut(Util.unpack(key, bitsPerChannel), temp[i][1]);
+    		  //sizeCount = sizeCount-1;
     	  }
     	  
       }
@@ -268,13 +290,17 @@ public class ColorTable {
 	      
   }
   
-  public int findNewSize(int currentSize){
+  private int findNewSize(int currentSize){
 	  if (currentSize>1073741793){
 		  return Constants.MAX_CAPACITY;
 	  }
 	  int j = ((2*currentSize)-3)/4;
-	  while((!Util.isPrime(4*j+3)) || ((4*j+3)<2*currentSize)){
+	  int suggCap = (4*j+3);
+	  double loadFac = (double)sizeCount/(double)suggCap;
+	  while((!Util.isPrime(4*j+3)) || ((4*j+3)<2*currentSize)|| (loadFac>rehashThreshold)){
 		  j++;
+		  suggCap = (4*j+3);
+		  loadFac = (double)sizeCount/(double)suggCap;
 	  }
 	  return (4*j+3);
   }
@@ -331,6 +357,14 @@ public class ColorTable {
 	  }
     return "";
   }
+  
+  public String toString(int[][] arry) {
+	  
+	  for (int i=0; i<hashArray.length; i++){
+		  System.out.println(arry[i][0] + ":" + arry[i][1]);
+	  }
+    return "";
+  }
 
   /**
    * TODO
@@ -354,14 +388,25 @@ public class ColorTable {
     //System.out.println("size: " + table.getSize());         // Expected: 3
 
 	
+	  //ColorTable table = new ColorTable(3, 4, Constants.LINEAR, 0.1);
+	  //System.out.println(table.getSize());
+	  //table.put(Color.BLACK, 5);
+	  //System.out.println(table.getSize());
+	  //table.put(Color.BLACK, 6);
+	  //System.out.println(table.getSize());
+	  
 	  ColorTable table = new ColorTable(3, 4, Constants.LINEAR, 0.1);
-	  //assertEquals(0, table.getSize());
-
-	  System.out.println(table.getCapacity());
-	  System.out.println(table.getLoadFactor());
-	  table.put(Color.BLACK, 5);
-	  System.out.println(table.getLoadFactor());
-	  System.out.println(table.getCapacity());
+	    //assertEquals(0, table.getSize());
+	    System.out.println(table.getSize());
+	    //assertEquals(3, table.getCapacity());
+	    System.out.println(table.getCapacity());
+	    //assertEquals(true, table.getLoadFactor() < 0.1);
+	    System.out.println(table.getLoadFactor());
+	    table.put(Color.BLACK, 5);
+	    //assertEquals(1, table.getSize());
+	    System.out.println(table.getSize());
+	    //assertEquals(19, table.getCapacity());
+	    System.out.println(table.getCapacity());
 	  
 	    //assertEquals(3, table.getCapacity());
 	    //assertEquals(true, table.getLoadFactor() < 0.1);
