@@ -1,5 +1,4 @@
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -17,33 +16,32 @@ public class Fibonacci {
   /**
    * TODO: Implement the recursive definition directly.
    */
-  public static int fib1(int n) {
-	if (n<2) {
+	public static int fib1(int n) {
+		if (n<2) {
 			return 1;
 		}
-	return fib1(n - 1) + fib1(n - 2); 
-  }
+		return fib1(n - 1) + fib1(n - 2); 
+	}
 
   /**
    * TODO: Implement recursively by calling a tail-recursive helper.
    */
-  /*public static int fib2(int n){
-	  public int helper (int a, int b, int n){
+ /* public static int fib2(int n){
+	 public int helper(int a, int b, int n):
 		  if (n<2){
 			  return 1;
 		  }else{
-			  return helper(b, a+b, n-1);
+			  return fib_help(b, a+b, n-1);
 		  }
-		  
-	  }
-	  return helper(0, 1, n);
+		     
+	return helper(0, 1, n)
   }*/
-  
+
   /**
    * TODO: Run this class as an application.
    */
   public static void main(String... args) {
-    System.out.println(fib1(9));
+    System.out.println(fib1(9));;
     //assert fib2(9) == 55;
   }
   
@@ -52,7 +50,7 @@ public class Fibonacci {
    * the following methods.
    */
   
-/*  @Test
+ /* @Test
   public void testFib1() {
     assertEquals(55, fib1(9));
   }
@@ -75,5 +73,5 @@ public class Fibonacci {
      @Test
   public void testFib2() {
     assertEquals(2, fib2(2));
-  }*/
-}
+  }
+*/}
