@@ -5,7 +5,7 @@ import java.util.Random;
 //import java.lang.Math;
 
 /**
- * @Shubhankar Mitra
+ * @Shubhankar Mitraa
  * 
  * A ColorTable represents a dictionary of frequency counts, keyed on Color.
  * It is a simplification of Map<Color, Integer>. The size of the key space
