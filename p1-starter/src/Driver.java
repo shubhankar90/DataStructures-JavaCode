@@ -3,6 +3,8 @@
  * @author (your name goes here)
  */
 
+import java.awt.Color;
+
 public class Driver {
   
   private static int numCollisions;
@@ -18,14 +20,14 @@ public class Driver {
     int imageHeight = image.getHeight();
     int imageWidth = image.getWidth();
     int initSize = (int)Math.pow(2, 3*bitsPerChannel);
-    table = new ColorTable(10, bitsPerChannel, Constants.LINEAR, 0.49);
+    table = new ColorTable(10, bitsPerChannel, Constants.QUADRATIC, 0.49);
     
     for (int i=0; i<imageWidth; i++){
     	for (int j=0; j<imageHeight; j++){
     		table.increment(image.getColor(i, j));
     	}
    	}
-    
+    numCollisions = table.getNumCollisions();
     return table;
   }
   
@@ -76,6 +78,7 @@ public class Driver {
     Image mona = Painting.MONA_LISA.get();
     Image starry = Painting.STARRY_NIGHT.get();
     Image christina = Painting.CHRISTINAS_WORLD.get();
+    
     System.out.println("It looks like all three test images were successfully loaded.");
     System.out.println("mona's dimensions are " + 
         mona.getWidth() + " x " + mona.getHeight());
@@ -84,7 +87,10 @@ public class Driver {
     System.out.println("christina's dimensions are " + 
         christina.getWidth() + " x " + christina.getHeight());
     //System.out.println(similarity(mona, mona, 6));
-    
+    //ColorTable monaLisaTable = vectorize(mona, 2);
+    //System.out.println(monaLisaTable.get(Color.BLACK));
+    //ColorTable starryTable = vectorize(starry, 2);
+    //System.out.println(starryTable.get(Color.BLACK));
      allPairsTest();
   }
 }
