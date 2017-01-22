@@ -156,27 +156,6 @@ public class ColorTable {
 		return finIndex;
 	}
 
-	private int rehashLookup(int key) {
-		int initIndex = hash(key);
-		int collCount = 0;
-		int finIndex = initIndex;
-		if ((hashArray[initIndex][0] == key) || (hashArray[finIndex][0] == -1)) {
-			finIndex = initIndex;
-		} else {
-			while ((hashArray[finIndex][0] != -1) & (hashArray[finIndex][0] != key)) {
-				collCount++;
-				if (collisionStrategy == Constants.LINEAR) {
-					finIndex = (initIndex + collCount) % hashArray.length;
-				} else {
-					finIndex = (initIndex + (collCount * collCount)) % hashArray.length;
-				}
-
-			}
-		}
-		// this.numCollisions = this.numCollisions + collCount;
-		return finIndex;
-	}
-
 	/**
 	 * Finds the hash value for a key.
 	 */
@@ -220,6 +199,27 @@ public class ColorTable {
 			}
 		}
 
+	}
+	
+	private int rehashLookup(int key) {
+		int initIndex = hash(key);
+		int collCount = 0;
+		int finIndex = initIndex;
+		if ((hashArray[initIndex][0] == key) || (hashArray[finIndex][0] == -1)) {
+			finIndex = initIndex;
+		} else {
+			while ((hashArray[finIndex][0] != -1) & (hashArray[finIndex][0] != key)) {
+				collCount++;
+				if (collisionStrategy == Constants.LINEAR) {
+					finIndex = (initIndex + collCount) % hashArray.length;
+				} else {
+					finIndex = (initIndex + (collCount * collCount)) % hashArray.length;
+				}
+
+			}
+		}
+		// this.numCollisions = this.numCollisions + collCount;
+		return finIndex;
 	}
 
 	/**
