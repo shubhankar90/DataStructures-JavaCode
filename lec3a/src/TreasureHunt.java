@@ -1,177 +1,123 @@
 /**
- * Given a treasure map and a starting position, follow the clues on the
- * map to a location containing treasure and dig it up.
+ * Given a treasure map and a starting position, follow the clues on the map to
+ * a location containing treasure and dig it up.
  * 
- *  @author Shubhankar Mitra
+ * @author Shubhankar Mitra
  */
 public class TreasureHunt {
-  
-  /**
-   * Follows the clues in the map and returns the buried treasure.
-   * 
-   * @param start The starting point for the hunt.
-   * @param map An array representing the treasure map. The array
-   * elements are of type Entry, and each Entry is either a Clue or 
-   * the actual Treasure. 
-   * 
-   * @return What is found when you dig for treasure after following
-   * the clues in the map.
-   */
 
-  public static String hunt(int start, Entry[] map) {
-    // TODO
-	  try{
-		  if (map[start].hasNext() == false){
+	/**
+	 * Follows the clues in the map and returns the buried treasure.
+	 * 
+	 * @param start
+	 *            The starting point for the hunt.
+	 * @param map
+	 *            An array representing the treasure map. The array elements are
+	 *            of type Entry, and each Entry is either a Clue or the actual
+	 *            Treasure.
+	 * 
+	 * @return What is found when you dig for treasure after following the clues
+	 *         in the map.
+	 */
+
+	public static String hunt(int start, Entry[] map) {
+		try {
+			if (map[start].hasNext() == false) {
 				return map[start].dig();
-			}else{
+			} else {
 				return hunt(start + map[start].next(), map);
 			}
-	  }catch(ArrayIndexOutOfBoundsException e){
-		  throw new ArrrException();
-	  }
-   
-  }
-  
-  public static void main(String... args) {
-    Entry[] map;
-    String loot;
-    
-    
-    map = new Entry[] {
-        new Treasure("gold"),
-        new Clue(1),
-        new Clue(1),
-        new Treasure("silver"),
-    };
-    loot = hunt(0, map);
-    System.out.println(loot);
-    assert loot.equals("gold");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ArrrException();
+		}
 
-    map = new Entry[] {
-        new Treasure("gold"),
-        new Clue(2),
-        new Clue(1),
-        new Clue(1),
-        new Treasure("silver"),
-    };
-    loot = hunt(1, map);
-    System.out.println(loot);
-    assert loot.equals("silver");
+	}
 
-    assert hunt(0, new Entry[] {
-        new Clue(3),
-        new Treasure("silver"),
-        new Treasure("gold"),
-        new Clue(2),
-        new Clue(2),
-        new Treasure("diamonds"),
-    }).equals("diamonds");
-    System.out.println(hunt(0, new Entry[] {
-        new Clue(3),
-        new Treasure("silver"),
-        new Treasure("gold"),
-        new Clue(2),
-        new Clue(2),
-        new Treasure("diamonds"),
-    }));
-    
-//
-//    assert hunt(1, new Entry[] {
-//        new Clue(7),
-//        new Clue(3),
-//        new Clue(6),
-//        new Treasure("rubies"),
-//        new Clue(-2),
-//        new Treasure("gold"),
-//        new Clue(1),
-//        new Treasure("silver"),
-//        new Clue(-3),
-//    }).equals("gold");
-//
-    try {
-      hunt(-1, new Entry[] {
-          new Clue(3),
-          new Clue(-1),
-          new Treasure("gold"),
-          new Clue(2),
-          new Treasure("silver"),
-          new Clue(-3),
-      });
-    }
-    catch (ArrrException e) {
-      System.out.println(e);
-    }
+	public static void main(String... args) {
+		Entry[] map;
+		String loot;
 
-    try {
-      hunt(0, new Entry[] {
-          new Clue(2),
-          new Treasure("bigmac"),
-          new Clue(3),
-          new Clue(2),
-          new Clue(2),
-          new Clue(-1),
-          new Clue(3),
-          new Clue(3),
-          new Treasure("whopper"),
-          new Clue(3),
-          new Treasure("fries"),
-          new Treasure("coke"),
-      });
-    }
-    catch (ArrrException e) {
-      System.out.println(e);
-    } 
-  }
+		map = new Entry[] { new Treasure("gold"), new Clue(1), new Clue(1), new Treasure("silver"), };
+		loot = hunt(0, map);
+		assert loot.equals("gold");
+
+		map = new Entry[] { new Treasure("gold"), new Clue(2), new Clue(1), new Clue(1), new Treasure("silver"), };
+		loot = hunt(1, map);
+		assert loot.equals("silver");
+
+		assert hunt(0, new Entry[] { new Clue(3), new Treasure("silver"), new Treasure("gold"), new Clue(2),
+				new Clue(2), new Treasure("diamonds"), }).equals("diamonds");
+
+		assert hunt(1, new Entry[] { new Clue(7), new Clue(3), new Clue(6), new Treasure("rubies"), new Clue(-2),
+				new Treasure("gold"), new Clue(1), new Treasure("silver"), new Clue(-3), }).equals("gold");
+
+		try {
+			hunt(-1, new Entry[] { new Clue(3), new Clue(-1), new Treasure("gold"), new Clue(2), new Treasure("silver"),
+					new Clue(-3), });
+		} catch (ArrrException e) {
+			System.out.println(e);
+		}
+
+		try {
+			hunt(0, new Entry[] { new Clue(2), new Treasure("bigmac"), new Clue(3), new Clue(2), new Clue(2),
+					new Clue(-1), new Clue(3), new Clue(3), new Treasure("whopper"), new Clue(3), new Treasure("fries"),
+					new Treasure("coke"), });
+		} catch (ArrrException e) {
+			System.out.println(e);
+		}
+	}
 }
 
 abstract class Entry {
-  abstract int next();
-  abstract boolean hasNext();
-  abstract String dig();
+	abstract int next();
+
+	abstract boolean hasNext();
+
+	abstract String dig();
 }
 
 class Clue extends Entry {
-  private int k;
-  
-  public Clue(int k) {
-    this.k = k;
-  }
-  
-  public int next() {
-    return k;
-  }
-  
-  public boolean hasNext() {
-    return true;
-  }
-  
-  public String dig() {
-    throw new ArrrException();
-  }
+	private int k;
+
+	public Clue(int k) {
+		this.k = k;
+	}
+
+	public int next() {
+		return k;
+	}
+
+	public boolean hasNext() {
+		return true;
+	}
+
+	public String dig() {
+		throw new ArrrException();
+	}
 }
 
 class Treasure extends Entry {
-  private String treasure;
-  
-  public Treasure(String treasure) {
-    this.treasure = treasure;
-  }
-  
-  public int next() {
-    throw new ArrrException();
-  }
-  
-  public boolean hasNext() {
-    return false;
-  }
-  
-  public String dig() {
-    return treasure;
-  }
+	private String treasure;
+
+	public Treasure(String treasure) {
+		this.treasure = treasure;
+	}
+
+	public int next() {
+		throw new ArrrException();
+	}
+
+	public boolean hasNext() {
+		return false;
+	}
+
+	public String dig() {
+		return treasure;
+	}
 }
 
 class ArrrException extends RuntimeException {
-  public ArrrException() {
-    super("Arrr!");
-  }
+	public ArrrException() {
+		super("Arrr!");
+	}
 }
