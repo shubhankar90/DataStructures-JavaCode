@@ -184,7 +184,10 @@ public class ColorTable {
 		}
 
 	}
-
+	
+	/**
+	 * Put function which doesn't increment sizeCount during rehash
+	 */
 	public void rehashPut(Color color, long count) {
 		if (count > 0) {
 			int packedColor = Util.pack(color, bitsPerChannel);
