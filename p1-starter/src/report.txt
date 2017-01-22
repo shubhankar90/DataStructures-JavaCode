@@ -17,5 +17,7 @@ VanGogh : 42127
 Number of collisions with Linear strategy: 9163888
 Number of collisions with Quadratic strategy: 3143467
 
-5. 
+5. I have never coded in java. So learning java itself was new for me. Apart from this, I encountered an unexpected timing issue. 
+This was due to size of the array being counted by looping over the array and finding the count of occupied positions.
+I changed this to keep a variable which gets incremented when a new element gets added.
 
