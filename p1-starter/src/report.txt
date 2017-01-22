@@ -1,0 +1,21 @@
+Shubhankar Mitra || shmitra || Friday 9:30 AM section lab
+
+1. Design Decision:
+I decided to use a primitive 2-d java array for keeping my hash table. I made this decision as using Primitive data types 
+require less overhead than creating a objects representing key/value pairs.
+
+2. lookup: This function was created to find the position for a key for get, put and increment function.
+
+hash: To find hash value for a key.
+
+findNewSize: To search for a new valid array size during rehashing.
+
+3. Davinci image: 42831
+VanGogh : 42127
+
+4. vangogh and degas are the most similar.
+Number of collisions with Linear strategy: 9163888
+Number of collisions with Quadratic strategy: 3143467
+
+5. 
+
