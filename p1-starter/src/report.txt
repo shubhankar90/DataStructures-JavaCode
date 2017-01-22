@@ -1,4 +1,4 @@
-Shubhankar Mitra || shmitra || Friday 9:30 AM section lab
+Shubhankar Mitra || shmitra || Friday 9:30 AM section lab  
 
 1. Design Decision:
 I decided to use a primitive 2-d java array for keeping my hash table. I made this decision as using Primitive data types 
