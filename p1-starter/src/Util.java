@@ -3,7 +3,7 @@ import java.awt.Color;
 public class Util {
   
   /*
-   * TODO
+   *  
    * 
    * Compute the cosine similarity using the formula given here: 
    * 
