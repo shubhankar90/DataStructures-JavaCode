@@ -22,7 +22,7 @@ public class Driver {
 		int imageHeight = image.getHeight();
 		int imageWidth = image.getWidth();
 		int initSize = (int) Math.pow(2, 3 * bitsPerChannel);
-		table = new ColorTable(10, bitsPerChannel, Constants.QUADRATIC, 0.49);
+		table = new ColorTable(10, bitsPerChannel, Constants.LINEAR, 0.49);
 
 		for (int i = 0; i < imageWidth; i++) {
 			for (int j = 0; j < imageHeight; j++) {

@@ -1,6 +1,6 @@
 /**
  * We implement the search algorithm described in Problem 2.27 of
- * Weiss.
+ * Weiss. test
  */
 
 public class MatrixSearch {
