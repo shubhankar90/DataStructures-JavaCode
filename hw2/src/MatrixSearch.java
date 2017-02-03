@@ -1,6 +1,10 @@
 /**
  * We implement the search algorithm described in Problem 2.27 of
- * Weiss. test
+ * Weiss. test.
+ * We start from the top right postion. We move left if our number is lower
+ * and move down if number is larger. This uses the sorted property of the
+ * matrix and ensures we only go through 2*n elements. This makes it O(N)
+ * 
  */
 
 public class MatrixSearch {

@@ -70,10 +70,7 @@ public class Coord implements Comparable<Coord> {
    * Returns true iff this Coord is visible on a board of the given size.
    */
   public boolean onBoard(int size) {
-	  if ((this.x>=0) & (this.x<size) & (this.y>=0) & (this.y<size))
-		  return true;
-	  else
-		  return false;
+    return true;
   }
 
   /**
@@ -83,22 +80,8 @@ public class Coord implements Comparable<Coord> {
    * south, east, and west neighbors.
    */
   public List<Coord> neighbors(int size) {
-	  Coord right = this.right();
-	  Coord left = this.left();
-	  Coord up = this.up();
-	  Coord down = this.down();
-	  ArrayList<Coord> neighbors = new ArrayList<Coord>();
-	  if (right.onBoard(size))
-		  neighbors.add(right);
-	  if (left.onBoard(size))
-		  neighbors.add(left);
-	  if (up.onBoard(size))
-		  neighbors.add(up);
-	  if (down.onBoard(size))
-		  neighbors.add(down);
-	  return neighbors;
-	  }
-		  
+    return null;
+  }
 
   /**
    * Returns true iff the (x,y)-coordinates of the given object match this Coord's
@@ -142,11 +125,7 @@ public class Coord implements Comparable<Coord> {
    * as uniformly distributed among the range of integers as possible.
    */
   public int hashCode() {
-	  return ((this.x<<5) +this.y);
-  }
-  
-  public void hc(int i, int j){
-	  System.out.println(i*32+j);
+    return 0;
   }
 
   /**
@@ -160,17 +139,7 @@ public class Coord implements Comparable<Coord> {
    * Simple testing.
    */
   public static void main(String... args) {
-	
-	  
-	Coord someCoord = new Coord(2, 1);
-	for (int i = 0; i<4;i++){
-		for (int j = 0; j<4;j++){
-			System.out.println(i+","+j+":");
-			someCoord.hc(i,j);
-		}
-			
-	}
-    
+    Coord someCoord = new Coord(2, 1);
     System.out.println("someCoord = " + someCoord);
     System.out.println("someCoord.hashCode() = " + someCoord.hashCode());
     System.out.println("someCoord.onBoard(4) = " + someCoord.onBoard(4));

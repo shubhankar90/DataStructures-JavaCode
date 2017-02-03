@@ -69,6 +69,7 @@ public class Util {
       int mask = (1 << bitsPerChannel) - 1; // In binary, this is bitsPerChannel ones.
       // Isolate the higher bitsPerChannel bits of each color component byte by
       // shifting right and masking off the higher order bits.
+      System.out.println(mask);
       r >>= leftovers; 
       r &= mask;
       g >>= leftovers; 
@@ -128,9 +129,9 @@ public class Util {
     System.out.println("green encoded in " + (3 * 4) + " bits: " + green);
     System.out.println(unpack(green, 4));
     
-    for (int n = 0; n < 300; n++) {
-      if (isPrime(n)) 
-        System.out.println(n + "  ");
-    }
+//    for (int n = 0; n < 300; n++) {
+//      if (isPrime(n)) 
+//        System.out.println(n + "  ");
+//    }
   }
 }

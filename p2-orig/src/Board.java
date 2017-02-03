@@ -1,7 +1,7 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Queue;
-import java.util.ArrayDeque;
+import java.util.Set;
 
 /**
  * A Board represents the current state of the game. Boards know their dimension, 
@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
  */
 
 public class Board {
-  private Map<Coord, Tile> inside, outside, perimeter ;   
+  private Map<Coord, Tile> inside, outside;
   private int size;
   
   /**
@@ -24,21 +24,16 @@ public class Board {
     // A tile is either inside or outside the current flooded region.
     inside = new HashMap<>();
     outside = new HashMap<>();
-    perimeter = new HashMap<>();
     this.size = size;
     for (int y = 0; y < size; y++)
       for (int x = 0; x < size; x++) {
         Coord coord = new Coord(x, y);
         outside.put(coord, new Tile(coord));
-        
       }
     // Move the corner tile into the flooded region and run flood on its color.
     Tile corner = outside.remove(Coord.ORIGIN);
     inside.put(Coord.ORIGIN, corner);
-    perimeter.put(Coord.ORIGIN, corner);
-    flood1(corner.getColor());
-    
-    
+    flood(corner.getColor());
   }
   
   /**
@@ -63,8 +58,6 @@ public class Board {
    * Returns true iff all tiles on the board have the same color.
    */
   public boolean fullyFlooded() {
-	  if (outside.size()==0)
-		  return true;
     return false;
   }
   
@@ -76,75 +69,7 @@ public class Board {
    */
   public void flood(WaterColor color) {
 
-	  for (Map.Entry<Coord, Tile> entry : inside.entrySet())
-	  {
-		  
-		  entry.getValue().setColor(color);
-		  
-	  }
-	  Queue<Coord> flooded = new ArrayDeque<Coord>();
-	  	flooded.addAll(inside.keySet());
-	  	while(!flooded.isEmpty()){
-	  		Coord entry = flooded.remove();
-	  		for (Coord neighbor : entry.neighbors(getSize())) {
-
-				if (outside.containsKey(neighbor)) {
-
-					if (get(neighbor).getColor() == color) {
-	
-						if (!flooded.contains(neighbor)) {
-							
-							flooded.add(neighbor);	
-							
-						}
-
-						inside.put(neighbor, get(neighbor));
-						outside.remove(neighbor);
-
-					}
-				}
-			}
-	  	}
-	  
-	  
-   }
-  
-  public int searchReward(WaterColor color) {
-	  	int countAdditions=0;
-	  	Queue<Coord> flooded = new ArrayDeque<Coord>();
-	  	flooded.addAll(inside.keySet());
-
-	  	Map<Coord, Tile> fakeOutside = new HashMap<>();
-
-	  	fakeOutside.putAll(outside);
-
-	  	while(!flooded.isEmpty()){
-	  		Coord entry = flooded.remove();
-	  		for (Coord neighbor : entry.neighbors(getSize())) {
-
-				if (fakeOutside.containsKey(neighbor)) {
-
-					if (get(neighbor).getColor() == color) {
-	
-						if (!flooded.contains(neighbor)) {
-							
-							flooded.add(neighbor);
-							countAdditions++;
-							
-						}
-
-						fakeOutside.remove(neighbor);
-					}
-				}
-			}
-	  	}
-	  
-	  return countAdditions;
-   }
-  
-  
-
-  
+  }
   
   /**
    * TODO
@@ -157,59 +82,15 @@ public class Board {
    * flood, including the one above that you eventually settle on, write a comment
    * that describes your algorithm in English. For those implementations that you
    * abandon, state your reasons.
-  */
-  public void flood1(WaterColor color) {
-	  for (Map.Entry<Coord, Tile> entry : inside.entrySet())
-	  {
-		  
-		  entry.getValue().setColor(color);
-		  
-	  }
-	  Queue<Coord> flooded = new ArrayDeque<Coord>();
-	  	flooded.addAll(perimeter.keySet());
-	  	while(!flooded.isEmpty()){
-	  		Coord entry = flooded.remove();
-	  		for (Coord neighbor : entry.neighbors(getSize())) {
-
-				if (outside.containsKey(neighbor)) {
-
-					if (get(neighbor).getColor() == color) {
-	
-						if (!flooded.contains(neighbor)) {
-							
-							flooded.add(neighbor);
-							for (Coord secNeighbor : neighbor.neighbors(getSize())){
-								if (outside.containsKey(secNeighbor)){
-									perimeter.put(neighbor, get(neighbor));
-									break;
-								}
-									
-							}
-							
-						}
-
-						inside.put(neighbor, get(neighbor));
-						outside.remove(neighbor);
-
-					}
-				}
-			}
-	  		perimeter.remove(entry);
-	  		for (Coord secNeighbor : entry.neighbors(getSize())){
-				if (outside.containsKey(secNeighbor)){
-					perimeter.put(entry, get(entry));
-					break;
-				}
-					
-			}
-	  	}
-
-	  }
-	  
-
   
-
-   
+  public void flood1(WaterColor color) {
+    
+  }
+  
+  public void flood2(WaterColor color) {
+    
+  }
+   */
   
   /**
    * TODO
@@ -222,19 +103,7 @@ public class Board {
    */
   public WaterColor suggest() {
     WaterColor cornerColor = inside.get(Coord.ORIGIN).getColor();
-    int highestReward = 0;
-    int currReward = 0;
-    WaterColor theChosenOne = WaterColor.pickOneExcept(cornerColor);
-	  for (WaterColor color: WaterColor.values()){
-		  currReward = searchReward(color);
-		 
-		  if (currReward>highestReward){
-			  highestReward = currReward;
-			  theChosenOne = color;
-		  }
-		  
-	  }
-    return theChosenOne;
+    return WaterColor.pickOneExcept(cornerColor);
   }
   
   /**
@@ -263,7 +132,6 @@ public class Board {
     int n = 5;
     for (int size = 1; size <= n; size++) {
       Board someBoard = new Board(size);
-      System.out.println("wd");
       System.out.println(someBoard);
     }
   }

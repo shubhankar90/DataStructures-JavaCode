@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+
+
 /**
  * We implement a slightly modified version of the algorithm described
  * in Problem 2.26 (pg 54) of Weiss. This modification handles
@@ -43,20 +45,39 @@ public class Majority {
    * a. Implement the recursive algorithm described in the main
    * comment.
    */
-  public static int[] findCandidates(int[] a) {
-	  int size = a.length/2;
-	  if (size<1){
-		  return a;
-	  }else{
-		  
-	  }
-		  
-	  if 
-	  int[] b = new int[/2];
-	  if b/2
-    return null;
-  }
-  
+	public static int[] findCandidates(int[] a) {
+		int size = a.length;
+		int[] b = new int[(size / 2)+1];
+		int candCount = 0;
+		if (size < 3) {
+
+			return a;
+		} else {
+			if (size % 2 == 0) {
+				for (int i = 0; i <= size - 2; i = i + 2) {
+					if (a[i] == a[i + 1]) {
+						b[candCount] = a[i];
+						candCount++;
+					}
+				}
+			} else {
+				for (int i = 0; i <= size - 3; i = i + 2) {
+					if (a[i] == a[i + 1]) {
+						b[candCount] = a[i];
+						candCount++;
+					}
+
+				}
+				b[candCount] = a[size - 1];
+				candCount++;
+			}
+			int[] c = new int[candCount];
+			for (int i = 0; i < candCount; i++)
+				c[i] = b[i];
+
+			return findCandidates(c);
+		}
+	}
   /**
    * Returns true iff x appears in more than half of the elements of a.
    */
@@ -98,19 +119,26 @@ public class Majority {
    */
   public static void main(String... args) {
     checkExpect(4, new int[] { 3, 3, 4, 2, 4, 4, 2, 4, 4 });
+    
     checkException(new int[] { 3, 3, 4, 2, 4, 4, 2, 4 });
+    
     checkExpect(1, new int[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 });
+    
     checkExpect(2, new int[] { 1, 2, 1, 2, 1, 2, 1, 2, 2 });
+    
     checkException(new int[] { 1, 2, 1, 2, 1, 2, 1, 2, 3 });
+
     checkExpect(1, new int[] { 
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
         });
+    
     checkException(new int[] { });
     checkExpect(5, new int[] { 5 });
     checkException(new int[] { 1, 2 });
     checkExpect(1, new int[] { 1, 1 });
     checkException(new int[] { 1, 2, 3 });
+
     checkExpect(1, new int[] { 1, 1, 2 });
     checkExpect(1, new int[] { 1, 2, 1 });
     checkExpect(1, new int[] { 2, 1, 1 });
@@ -121,3 +149,5 @@ public class Majority {
 class NoMajorityException extends RuntimeException {
   
 }
+
+

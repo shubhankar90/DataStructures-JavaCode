@@ -1,6 +1,8 @@
 /**
- * Solution to the pre-lecture exercise for lec3b.
+ * Solution for lab3.
  */
+
+import java.util.Iterator;
 
 public class SinglyLinkedList<T> implements List<T> {
 
@@ -11,6 +13,7 @@ public class SinglyLinkedList<T> implements List<T> {
   class Node {
     T data;
     Node next;
+    Node iteratorTracker;
     
     Node(T data) {
       this(data, null);
@@ -28,76 +31,20 @@ public class SinglyLinkedList<T> implements List<T> {
   /**
    * Inserts the value x at the end of this list.
    */
-	public void add(T ...x) {
-		
-		int y = x.length;
-		if(y==1){
-			n++;
-			if (head == null){
-				
-				head = new Node(x[0]);
-			}
-			else{
-				Node p = head;
-				while (p.next != null)
-					p = p.next;
-				p.next = new Node(x[0]);
-			}
-		}
-		
-			
-		if (y >= 1) {
-			if (head == null){
-				n++;
-				head = new Node(x[0]);
-			}
-			Node p = head;
-			while (p.next != null)
-				p = p.next;
-			for (int i = 1; i < y; i++) {
-			n++;
-			p.next = new Node(x[i]);
-			p = p.next;
-
-			}
-
-		}
-
-	}
+  public void add(T... xs) {  
+    int m = xs.length;
+    if (m == 0) return;
+    n += m;
+    int i = 0;
+    if (head == null) 
+      head = new Node(xs[i++]);
+    Node last = head;
+    while (last.next != null)
+      last = last.next;  
+    while (i < m)
+      last = last.next = new Node(xs[i++]);
+  }
   
-  /**
-   * Inserts the value x at the end of this list.
-   */
-  public void swap(int i, int j) {
-	  if (i == j) return;
-	  if (i < 0 || i >= size() ||j < 0 || j >= size())
-	       throw new IndexOutOfBoundsException();
-	  Node p = head;
-	  Node first = head;
-	  Node sec = head;
-	  int foundCount = 0;
-	  for (int k=0; k<size(); k++){
-		if (k==i-1){
-			foundCount++;
-			first = p;
-		}
-		if (k==j-1){
-			foundCount++;
-			sec = p;
-		}
-		if (foundCount==2){
-			break;
-		}
-		p = p.next;
-			
-	  }
-	  System.out.println(first.next.data);
-	  System.out.println(sec.next.data);
-	  T temp = first.next.data;
-	  first.next.data = sec.next.data;
-	  sec.next.data = temp;
-	  return;
-  }  
   /**
    * Removes the element at index i from this list.
    * @return the data in the removed node.
@@ -105,7 +52,7 @@ public class SinglyLinkedList<T> implements List<T> {
    */
   public T remove(int i) {
     if (i < 0 || i >= size())
-       throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException();
     n--;
     Node p = head;
     T ans;
@@ -115,13 +62,13 @@ public class SinglyLinkedList<T> implements List<T> {
     }
     else {
       while (--i > 0) 
-	p = p.next;
+        p = p.next;
       ans = p.next.data;
       p.next = p.next.next;
     }
     return ans;
   }
-    
+  
   /**
    * Returns the i-th element from this list, where i is a zero-based index.
    * @throw IndexOutOfBoundsException iff i is out of range for this list.
@@ -164,6 +111,42 @@ public class SinglyLinkedList<T> implements List<T> {
     return size() == 0;
   }
   
+  public Iterator<T> iterator() {
+    return new Iterator<T>() {
+      Node p = head;
+      
+      public boolean hasNext() {
+        return p != null;
+      }
+      
+      public T next() {
+        Node curr = p;
+    	T ans = p.data;
+        p = p.next;
+        return ans;
+      }
+    };
+  }
+  
+  public void swap(int i, int j) {
+    if (i < 0 || i >= size() || j < 0 || j >= size())
+      throw new IndexOutOfBoundsException();
+    Node p = head, q = head;
+    while (!(i == 0 && j == 0)) {
+      if (i != 0) {
+        p = p.next;
+        i--;
+      }
+      if (j != 0) {
+        q = q.next;
+        j--;
+      }
+    }
+    T temp = p.data;
+    p.data = q.data;
+    q.data = temp;
+  }
+  
   /**
    * Returns a string representing this list (resembling a Racket list).
    */
@@ -180,25 +163,44 @@ public class SinglyLinkedList<T> implements List<T> {
    * Simple testing.
    */
   public static void main(String... args) {
-    // The given tests, but with Integers.
-	  
-	  SinglyLinkedList<Integer> nums = new SinglyLinkedList<>();
-	  nums.add(4);
-	  nums.add(3);
-	  nums.add(6);
-	  nums.add(5);
-	  nums.add(8);
-	  nums.add(7);
-	  System.out.println(nums.toString());
-	  nums.swap(1, 4);
-	  System.out.println(nums.toString());
-	System.out.println("Here");
-	SinglyLinkedList<Integer> nums2 = new SinglyLinkedList<>();
-	nums2.add(4, 3, 6, 5, 8, 7);
-	System.out.println("Here again");
-	System.out.println(nums2.toString());
-    List<Integer> xs = new SinglyLinkedList<>();
+    List<List<Integer>> deep = new SinglyLinkedList<>();
+    List<Integer> b0 = new SinglyLinkedList<>();
+    List<Integer> b1 = new SinglyLinkedList<>();
+    List<Integer> b2 = new SinglyLinkedList<>();
+    List<Integer> b3 = new SinglyLinkedList<>();
+    b0.add(1); b0.add(2);
+    b2.add(3); b2.add(4); b2.add(5);
+    b3.add(6);
+    deep.add(b0);
+    deep.add(b1);
+    deep.add(b2);
+    deep.add(b3);
+    System.out.println(deep);
+    for (List<Integer> ls : deep)
+      System.out.println(ls.size());
     
+    SinglyLinkedList<Integer> nums = new SinglyLinkedList<>();
+    nums.add(4);
+    nums.add(3);
+    nums.add(6);
+    nums.add(5);
+    nums.add(8);
+    nums.add(7);
+    nums.swap(1, 4);
+    assert "(4 8 6 5 3 7)".equals(nums.toString());
+    assert nums.remove(0) == 4;
+    assert nums.remove(1) == 6;
+    nums = new SinglyLinkedList<>();
+    nums.add(4, 3, 6, 5, 8, 7);
+    assert 6 == nums.size();
+    nums.add(6, 2, 1);
+    nums.add();
+    nums.add(0);
+    assert 10 == nums.size();
+    assert "(4 3 6 5 8 7 6 2 1 0)".equals(nums.toString());
+    
+    // The given tests, but with Integers.
+    List<Integer> xs = new SinglyLinkedList<>();
     assert "()".equals(xs.toString());
     int[] a = new int[] { 7, 4, 6, 9, 2 };
     for (int x : a)
@@ -256,8 +258,8 @@ public class SinglyLinkedList<T> implements List<T> {
 /**
  * If you want to call yourself a List, then implement this interface:
  */
-interface List<T> {
-  void add(T ...x);
+interface List<T> extends Iterable<T> {
+  void add(T... xs);
   T remove(int i);
   T get(int i);
   boolean contains(T x);
