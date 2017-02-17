@@ -29,6 +29,8 @@ public class DoublyLinkedList<T> implements List<T> {
       this.prev = prev;
       this.next = next;
     }
+    
+    
   }
 
   Node head;  // always points to the headnode for this list
