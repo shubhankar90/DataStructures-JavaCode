@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -46,17 +47,20 @@ public class BinaryTree implements Tree {
       root = new Node(key, null, root);
   }
   
-  public String toString1(){
-	  String res = "";
-	  for (Integer item: levelOrderNodes(root))
-		  System.out.println(item);
-	  return "";
-  }
   
-  public ArrayList<Integer> levelOrderNodes(Node root) {
-		Queue<Node> q = new LinkedList<Node>();
+  /**
+   * 
+   * Here I have used ArrayDeque data structure to traverse the
+   * binary tree in a level order fashion. It takes elements in a level
+   * returns them and we add the returned elements children in the queue.
+   * A queue is useful in this scenario as we need to dynamically enter elements in the
+   * data structure and remove in a First in First out fashion.
+   *  
+   */
+  public ArrayList<Integer> levelOrder(Node root) {
+		Queue<Node> q = new ArrayDeque<Node>();
 		int levelNodes = 0;
-		ArrayList<Integer> retList = new ArrayList(); 
+		ArrayList<Integer> retList = new ArrayList<Integer>(); 
 		if (root == null)
 			return retList;
 		q.add(root);
@@ -71,7 +75,6 @@ public class BinaryTree implements Tree {
 					q.add(n.right);
 				levelNodes--;
 			}
-//			System.out.println("");
 		}
 		return retList;
 	}
@@ -128,11 +131,12 @@ public class BinaryTree implements Tree {
     }
     catch (UnsupportedOperationException e) {
     }
-    tr.toString1();
+    for (Integer item: tr.levelOrder(tr.root))
+		  System.out.println(item);
     tr.pruneLeaves();
-    tr.toString1();
-    tr.pruneLeaves();
-    tr.toString1();
+    System.out.println("Pruning...");
+    for (Integer item: tr.levelOrder(tr.root))
+		  System.out.println(item);
     BinaryTree tr1 = new BinaryTree();   
     assert (tr1.isEmpty());
     tr1.pruneLeaves();
