@@ -32,7 +32,7 @@ public class Game {
 	public static void main(final String... args) {
 		System.out.println(Constants.TITLE);
 		// Run a game in interactive mode:
-		// SwingUtilities.invokeLater(() -> new Game());
+//		 SwingUtilities.invokeLater(() -> new Game());
 
 		// Uncomment the following line to run a batch of games and display a
 		// graph of the timings:
