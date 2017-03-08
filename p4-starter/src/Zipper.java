@@ -1,3 +1,6 @@
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * TODO: There are two methods for you to implement in this class.
  * 
@@ -25,7 +28,11 @@ public class Zipper {
    * Returns the bit string encoding of the given plain text.
    */
   public String encode(String plainText) {
-    return null;
+	  StringBuilder res = new StringBuilder();
+	  for(Character ch: plainText.toCharArray()){
+		  res.append(book.encodeChar(ch));
+	  }
+    return res.toString();
   }
   
   /**
@@ -34,7 +41,18 @@ public class Zipper {
    * Returns the text string corresponding to the given bit string.
    */  
   public String decode(String bits) {
-    return null;
+	  StringBuilder bitPattern = new StringBuilder();
+	  StringBuilder res = new StringBuilder();
+	  char ch1;
+	  for(char bit: bits.toCharArray()){
+		  bitPattern.append(bit);
+		  ch1=ht.decodeChar(bitPattern.toString());
+		  if (ch1!='\0'){
+			  res.append(ch1);
+			  bitPattern.delete(0, bitPattern.toString().length());
+		  }
+	  }
+    return res.toString();
   }
   
   /**

@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -31,7 +32,8 @@ public class Heap<E> implements PriorityQueue<E> {
    * Creates a heap whose elements are prioritized by the comparator.
    */
   public Heap(Comparator<E> comparator) {
-    
+	  keys = new ArrayList<E>();
+	  this.comparator = comparator;
   }
 
   /**
@@ -48,7 +50,7 @@ public class Heap<E> implements PriorityQueue<E> {
    * @throws NoSuchElementException if the heap is empty.
    */
   public E peek() {
-    return null;
+    return keys.get(0);
   }
 
   /**
@@ -57,7 +59,8 @@ public class Heap<E> implements PriorityQueue<E> {
    * Inserts the given key into this heap. Uses siftUp().
    */
   public void insert(E key) {
-
+	  keys.add(key);
+	  siftUp(size() - 1);
   }
 
   /**
@@ -67,7 +70,15 @@ public class Heap<E> implements PriorityQueue<E> {
    * @throws NoSuchElementException if the heap is empty.
    */
   public E delete() {
-    return null;
+	if (size()>0){
+	  E ret = keys.get(0);
+	  keys.set(0,keys.get(size()-1));
+	  keys.remove(size()-1);
+	  if (size()>0)
+	  	siftDown(0);
+    return ret;}
+	  else
+		  throw new NoSuchElementException();
   }
 
   /**
@@ -77,6 +88,24 @@ public class Heap<E> implements PriorityQueue<E> {
    * into the heap.
    */
   public void siftDown(int p) {
+	  	int leftChild = getLeft(p);
+	    int rightChild = getRight(p);
+	    if (rightChild < size()) {
+	    	int max = rightChild;
+	    	if (comparator.compare(keys.get(leftChild), keys.get(rightChild))<=0){
+	    		max = leftChild;
+	    	}
+	    	if (comparator.compare(keys.get(max), keys.get(p))<0){
+	    		swap(p,max);
+	    		siftDown(max);
+	    	}
+	    }else if (leftChild<size()){
+	    	if (comparator.compare(keys.get(leftChild), keys.get(p))<0){
+	    		swap(p,leftChild);
+	    		
+	    	}
+	    }else
+	    	return;
     
   }
   
@@ -87,7 +116,15 @@ public class Heap<E> implements PriorityQueue<E> {
    * into the heap. (Used by insert()).
    */
   public void siftUp(int q) {
+	if (q==0)
+		return;
+    int parent = getParent(q);
     
+    if (comparator.compare(keys.get(q), keys.get(parent))<=0){
+    	swap(q,parent);
+    	siftUp(parent);
+    }else
+    	return;
   }
 
   /**
@@ -96,7 +133,9 @@ public class Heap<E> implements PriorityQueue<E> {
    * Exchanges the elements in the heap at the given indices in keys.
    */
   public void swap(int i, int j) {
-    
+	  E temp = keys.get(i);
+	  keys.set(i, keys.get(j));
+	  keys.set(j, temp);
   }
   
   /**
@@ -119,7 +158,7 @@ public class Heap<E> implements PriorityQueue<E> {
    * Returns the index of the left child of p.
    */
   public static int getLeft(int p) {
-    return 0;
+    return 2*p+1;
   }
 
   /**
@@ -128,7 +167,7 @@ public class Heap<E> implements PriorityQueue<E> {
    * Returns the index of the right child of p.
    */
   public static int getRight(int p) {
-    return 0;
+    return 2*p+2;
   }
 
   /**
@@ -137,6 +176,6 @@ public class Heap<E> implements PriorityQueue<E> {
    * Returns the index of the parent of p.
    */
   public static int getParent(int p) {
-    return 0;
+    return (p-1)/2;
   }
 }

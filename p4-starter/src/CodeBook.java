@@ -56,6 +56,10 @@ public class CodeBook {
    * association in the map.
    */
   private void readCodeFromTree() {
+	  
+	  for(Character ch: freqs.keySet()){
+		  book.put(ch, ht.lookup(ch));
+	  }
  
   }
   
@@ -98,7 +102,7 @@ public class CodeBook {
    * the character in the map. Important: do not search the HuffmanTree here!
    */
   public String encodeChar(Character ch) {
-    return null;
+    return book.get(ch);
   }
 }
 

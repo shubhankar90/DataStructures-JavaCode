@@ -1,4 +1,6 @@
+import java.util.ArrayDeque;
 import java.util.Comparator;
+import java.util.Queue;
 
 /**
  * TODO: Complete the implementation of this class.
@@ -49,15 +51,24 @@ public class HuffmanTree {
        *  TODO: x and y are Nodes
        *  x comes before y if x's priority is less than y's priority
        */
-      return 0;
+      return x.priority-y.priority;
     };  
     PriorityQueue<Node> forest = new Heap<Node>(comparator);
-
+    for (char ch: charFreqs.keySet()){
+    	Node entry = new Node(charFreqs.get(ch),ch);
+    	forest.insert(entry);
+    }
+    while (forest.size()>1){
+    	Node n1=forest.delete();
+    	Node n2=forest.delete();
+    	Node newNode = new Node(n1.priority+n2.priority,n1,n2);
+    	forest.insert(newNode);
+    }
     /**
      * TODO: Complete the implementation of Huffman's Algorithm.
      * Start by populating forest with leaves.
      */
-    root = null;
+    root = forest.delete();
   }
   
   /**
@@ -68,8 +79,31 @@ public class HuffmanTree {
    * @throws DecodeException if bits does not match a character in the tree.
    */
   public char decodeChar(String bits) {
-    return '\0';
+	  Node start = root;
+	  for (char ch: bits.toCharArray()){
+//		  System.out.println("ch value:"+ch);
+		  if (ch=='0'){
+//			  System.out.println("Left");
+			  if(start.isLeaf())
+				  break;
+			  if (start.left==null)
+				  throw new DecodeException(bits);
+			  
+			  start = start.left;
+		  }else{
+//			  System.out.println("Right");
+			  if(start.isLeaf())
+				  break;
+			  if (start.right==null)
+				  throw new DecodeException(bits);
+			  start = start.right;
+		  }
+			  
+	  }
+    return start.key;
   }
+  
+
     
   /**
    * TODO
@@ -82,7 +116,27 @@ public class HuffmanTree {
    * @throws EncodeException if the character does not appear in the tree.
    */
   public String lookup(char ch) {
-    return null;
+	  return lookupHelper(root,ch,"");
+  }
+  
+  public String lookupHelper(Node root, char ch, String path){
+	  if (root.isLeaf()){
+		  if (root.key==ch){
+		  return path;
+		  }else
+			  return null;
+	  }else{
+		  String left=lookupHelper(root.left,ch,path+"0");
+		  String right=lookupHelper(root.right,ch,path+"1");
+		  if (left!=null)
+			  return left;
+		  else if (right!=null)
+			  return right;
+		  else
+			  return null;
+		  
+	  }
+	  
   }
 }
 
