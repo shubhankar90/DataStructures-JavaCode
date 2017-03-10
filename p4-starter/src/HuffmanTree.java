@@ -3,6 +3,7 @@ import java.util.Comparator;
 import java.util.Queue;
 
 /**
+ * 
  * TODO: Complete the implementation of this class.
  * 
  * A HuffmanTree represents a variable-length code such that the shorter the bit

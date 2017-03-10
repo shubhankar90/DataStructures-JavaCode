@@ -23,9 +23,9 @@ public class Driver {
 		// + "ddddddddddddddddddddd"
 		// + "eeeeeeeee"
 		// + "fffff";
-		// String text = Util.loadFile(Constants.ALICE);
-//		 String text = Util.loadFile(Constants.MOBY_DICK);
-		String text = Util.loadFile(Constants.TimeMachine);
+//		 String text = Util.loadFile(Constants.ALICE);
+		 String text = Util.loadFile(Constants.MOBY_DICK);
+//		String text = Util.loadFile(Constants.TIMEMACHINE);
 
 		System.out.println();
 		System.out.println("The original text has " + text.length() + " characters.");

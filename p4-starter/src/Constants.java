@@ -5,6 +5,6 @@ public class Constants {
 
 	public static final String ALICE = "alice-in-wonderland.txt";
 	public static final String MOBY_DICK = "moby-dick.txt";
-	public static final String TimeMachine = "TimeMachine.txt";
+	public static final String TIMEMACHINE = "TimeMachine.txt";
 
 }

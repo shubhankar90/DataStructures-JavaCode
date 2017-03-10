@@ -1,6 +1,7 @@
 import java.util.Comparator;
 
 /**
+ * 
  * This is the same ADT given in lecture except that it has been
  * made generic and the accessor method, comparator(), has been
  * added.

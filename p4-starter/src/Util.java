@@ -6,6 +6,7 @@ import java.util.Scanner;
  * There's nothing for you to do here.
  */
 
+
 public class Util {  
   /**
    * Reads a text file and returns the contents as a string.

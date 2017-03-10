@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 /**
+ * 
  * TODO: There are two methods for you to implement in this class.
  *
  * A CodeBook maps characters to bit strings. The code is specific to a text
