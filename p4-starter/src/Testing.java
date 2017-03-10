@@ -105,6 +105,48 @@ public class Testing {
    **********************************************************************************/
 
   @Test
+  public void swapTest(){
+	  Heap<Integer> heap = new Heap<>((x, y) -> y.compareTo(x));
+	    heap.insert(1);
+	    heap.insert(2);
+	    heap.insert(3);
+
+	    heap.swap(0, 1);
+	    assertTrue(1 == heap.delete());
+	    assertTrue(3 == heap.delete());
+	    assertTrue(2 == heap.delete());
+  }
+  
+  @Test
+  public void siftDownTest(){
+	  Heap<Integer> heap = new Heap<>((x, y) -> y.compareTo(x));
+	    heap.insert(1);
+	    heap.insert(2);
+	    heap.insert(3);
+
+	    heap.swap(0, 2);
+	    //making swap correction
+	    heap.siftDown(0);
+	    assertTrue(3 == heap.delete());
+	    assertTrue(2 == heap.delete());
+	    assertTrue(1 == heap.delete());
+  }
+  
+  @Test
+  public void siftUpTest(){
+	  Heap<Integer> heap = new Heap<>((x, y) -> y.compareTo(x));
+	    heap.insert(1);
+	    heap.insert(2);
+	    heap.insert(3);
+
+	    heap.swap(0, 2);
+	    //making swap correction
+	    heap.siftUp(2);
+	    assertTrue(3 == heap.delete());
+	    assertTrue(2 == heap.delete());
+	    assertTrue(1 == heap.delete());
+  }
+  @Test
   public void smallMinHeap() {
     Heap<Integer> heap = new Heap<>((x, y) -> x.compareTo(y));
     Comparator<Integer> comp = heap.comparator();

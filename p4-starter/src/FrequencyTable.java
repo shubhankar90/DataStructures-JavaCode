@@ -9,7 +9,6 @@ public class FrequencyTable extends HashMap<Character, Integer> {
    * Constructs an empty table.
    */
 	
-//	HashMap<Character, Integer> freqTable;
   public FrequencyTable() {
     super();
   }
@@ -27,7 +26,6 @@ public class FrequencyTable extends HashMap<Character, Integer> {
 		    	 
 		    //Process char
 		}
-//	  freqTable = new FrequencyTable();
     
   }
   
